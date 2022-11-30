@@ -5,8 +5,9 @@
  */
 package com.toko.buku.controller;
 
-import com.toko.buku.config.HibernateUtil;
-import com.toko.buku.dao.TokoBukuDao;
+//import com.toko.buku.config.HibernateUtil;
+//import com.toko.buku.dao.TokoBukuDao;
+import static com.toko.buku.app.TokoBukuApp.getTokoBukuService;
 import com.toko.buku.model.TokoBuku;
 import com.toko.buku.model.TokoBukuTableModel;
 import com.toko.buku.view.TokoBukuView;
@@ -20,7 +21,7 @@ public class TokoBukuController {
     private TokoBukuView tokoBukuView;
     private List<TokoBuku> listTokoBuku;
     private TokoBukuTableModel tokoBukuTableModel;
-    private final TokoBukuDao tokoBukuDao = HibernateUtil.getTokoBukuDao();
+//    private final TokoBukuDao tokoBukuDao = HibernateUtil.getTokoBukuDao();
     
     public TokoBukuController(TokoBukuView tokoBukuView){
         this.tokoBukuView = tokoBukuView;
@@ -41,7 +42,7 @@ public class TokoBukuController {
         tokoBuku.setHarga(Integer.parseInt(this.tokoBukuView.getTxtHarga().getText()));
         
         try{
-          tokoBukuDao.save(tokoBuku);
+          getTokoBukuService().save(tokoBuku);
             JOptionPane.showMessageDialog(null, "Berhasil menyimpan Buku", "Success", JOptionPane.INFORMATION_MESSAGE);
             clear();
             getAllData();
@@ -58,7 +59,7 @@ public class TokoBukuController {
         tokoBuku.setHarga(Integer.parseInt(this.tokoBukuView.getTxtHarga().getText()));
         
         try{
-            tokoBukuDao.update(tokoBuku);
+            getTokoBukuService().update(tokoBuku);
             JOptionPane.showMessageDialog(null, "Berhasil mengubah Buku", "Success", JOptionPane.INFORMATION_MESSAGE);
             clear();
             getAllData();
@@ -77,7 +78,7 @@ public class TokoBukuController {
             int option = JOptionPane.showConfirmDialog(null, "Apakah ingin menghapus ini ?","Warning", JOptionPane.YES_OPTION, JOptionPane.WARNING_MESSAGE);
             if(option == JOptionPane.YES_OPTION){
                 try{
-                    tokoBukuDao.delete(tokoBuku);
+                    getTokoBukuService().delete(tokoBuku);
                     JOptionPane.showMessageDialog(null, "Berhasil menghapus Buku", "Success", JOptionPane.INFORMATION_MESSAGE);
                     clear();
                     getAllData();
@@ -89,7 +90,7 @@ public class TokoBukuController {
     }
     
     public void getAllData(){
-        listTokoBuku = tokoBukuDao.getList();
+        listTokoBuku = getTokoBukuService().getList();
         tokoBukuTableModel = new TokoBukuTableModel(listTokoBuku);
         this.tokoBukuView.getTblBuku().setModel(tokoBukuTableModel);
     }
