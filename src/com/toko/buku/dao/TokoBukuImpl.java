@@ -1,13 +1,16 @@
 package com.toko.buku.dao;
 
 import com.toko.buku.model.TokoBuku;
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class TokoBukuImpl implements TokoBukuDao {
     @Autowired
     private SessionFactory sessionFactory;
@@ -18,8 +21,9 @@ public class TokoBukuImpl implements TokoBukuDao {
 
     
     @Override
-    public void save(TokoBuku tokobuku) {
-        sessionFactory.getCurrentSession().save(tokobuku);
+    public String save(TokoBuku tokobuku) {
+        Serializable res = sessionFactory.getCurrentSession().save(tokobuku);
+        return String.valueOf(res);
 //        Session session = sessionFactory.openSession();
 //        try{
 //            session.beginTransaction();
